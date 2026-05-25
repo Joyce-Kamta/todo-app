@@ -1,0 +1,45 @@
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Récupération du code') {
+            steps {
+                echo 'Récupération du code source...'
+                echo "Build numéro : ${env.BUILD_NUMBER}"
+                echo "Nom du job : ${env.JOB_NAME}"
+            }
+        }
+
+        stage('Installation des dépendances') {
+            steps {
+                bat 'cd C:\\projet-jenkins && npm install'
+            }
+        }
+
+        stage('Tests') {
+            steps {
+                bat 'cd C:\\projet-jenkins && npm test'
+            }
+        }
+
+        stage('Résultats') {
+            steps {
+                echo 'Tests terminés avec succès !'
+                echo "Build ${env.BUILD_NUMBER} réussi !"
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo '✅ Pipeline réussie — tout fonctionne !'
+        }
+        failure {
+            echo '❌ Pipeline échouée — regarde les logs !'
+        }
+    }
+
+}
