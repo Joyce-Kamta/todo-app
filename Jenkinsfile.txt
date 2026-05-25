@@ -6,21 +6,22 @@ pipeline {
 
         stage('Récupération du code') {
             steps {
-                echo 'Récupération du code source...'
                 echo "Build numéro : ${env.BUILD_NUMBER}"
                 echo "Nom du job : ${env.JOB_NAME}"
+                git branch: 'main',
+                    url: 'https://github.com/Joyce-Kamta/todo-app.git'
             }
         }
 
         stage('Installation des dépendances') {
             steps {
-                bat 'cd C:\\projet-jenkins && npm install'
+                bat 'npm install'
             }
         }
 
         stage('Tests') {
             steps {
-                bat 'cd C:\\projet-jenkins && npm test'
+                bat 'npm test'
             }
         }
 
